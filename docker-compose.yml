@@ -1,0 +1,71 @@
+version: '3.2'
+
+services:
+
+  wordpress571:
+    image: wordpress:5.7.2-apache
+    restart: always
+    ports:
+    - 8709:80
+    environment:
+      WORDPRESS_DB_HOST: mysql571
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+    #    - ./wp-content/plugins:/var/www/html/wp-content/plugins
+    #    - ./local.ini:/usr/local/etc/php/conf.d/local.ini
+    - type: bind
+      source: ./local.ini
+      target: /usr/local/etc/php/conf.d/local.ini
+    #    - ./:/var/www/html
+    #    - type: bind
+    #        source: ./wp-config.php
+    #        target: /var/www/html/wp-config.php
+    - ./wordpress_4916:/var/www/html/
+
+
+    #- ./wp-content/themes:/var/www/html/wp-content/themes
+    #- ./wp-content/uploads:/var/www/html/wp-content/uploads
+    #- ./wp-config.php:/var/www/html/wp-config.php
+
+    #    - ./wp-content/plugins/:/var/www/html/wp-content/plugins/
+    #    - ./local.ini:/usr/local/etc/php/conf.d/local.ini
+    #    - ./index.php:/var/www/html
+    #    - ./license.txt:/var/www/html
+    #    - ./readme.html:/var/www/html
+    #    - ./wp-activate.php:/var/www/html
+    #    - ./wp-blog-header.php:/var/www/html
+    #    - ./wp-comments-post.php:/var/www/html
+    #    - ./wp-config.php:/var/www/html
+    #    - ./wp-cron.php:/var/www/html
+    #    - ./wp-links-opml.php:/var/www/html
+    #    - ./wp-load.php:/var/www/html
+    #    - ./wp-login.php:/var/www/html
+    #    - ./wp-mail.php:/var/www/html
+    #    - ./wp-settings.php:/var/www/html
+    #    - ./wp-signup.php:/var/www/html
+    #    - ./wp-trackbacks.php:/var/www/html
+    #    - ./mlrpc.php:/var/www/html
+
+  mysql571:
+    image: mysql:5.7
+    restart: always
+    ports:
+    - 3323:3306
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+    - mysql_571:/var/lib/mysql
+networks:
+  default:
+    external:
+      name: network-wp_571
+
+volumes:
+  wordpress571:
+  mysql_571:
+
